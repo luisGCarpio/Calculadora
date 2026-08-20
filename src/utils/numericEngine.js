@@ -178,3 +178,10 @@ export function simulateALU(binA, binB, operation, bits) {
     steps
   };
 }
+
+// Remove leading zeros from a string for compact display (cosmetic only)
+// Returns '0' if the string is all zeros or empty after trimming.
+export function trimLeadingZeros(str) {
+  const trimmed = str.replace(/^0+/, '');
+  return trimmed.length === 0 ? '0' : trimmed;
+}

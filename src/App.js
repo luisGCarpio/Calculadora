@@ -6,7 +6,8 @@ import {
   decimalToAnyBase,
   getArchitectureLimit,
   applyPadding,
-  simulateALU
+  simulateALU,
+  trimLeadingZeros
 } from './utils/numericEngine';
 
 function App() {
@@ -19,6 +20,9 @@ function App() {
   const [aluA, setAluA] = useState('1010');
   const [aluB, setAluB] = useState('1100');
   const [aluOp, setAluOp] = useState('AND');
+
+  // 3. Display States
+  const [compactView, setCompactView] = useState(false);
 
   // --- Core Base Conversion Logic ---
   const conversionData = useMemo(() => {
@@ -223,6 +227,19 @@ function App() {
           <div className="lab-panel">
             <div className="panel-header">
               <h2 style={{ fontSize: '14px', margin: 0 }}>Módulo de Salida Multibase (Registros)</h2>
+              <label
+                htmlFor="compact-view-toggle"
+                style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', userSelect: 'none' }}
+              >
+                <input
+                  id="compact-view-toggle"
+                  type="checkbox"
+                  checked={compactView}
+                  onChange={(e) => setCompactView(e.target.checked)}
+                  style={{ accentColor: 'var(--accent-cyan)', width: '13px', height: '13px', cursor: 'pointer' }}
+                />
+                Vista compacta (sin ceros de relleno)
+              </label>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -230,11 +247,11 @@ function App() {
               <div>
                 <label className="form-label" style={{ display: 'block', marginBottom: '4px' }}>Registro Binario (Base 2)</label>
                 <div className="register-display">
-                  <span>{conversionData.error ? '---------' : conversionData.outputs.binary}</span>
-                  <button 
-                    onClick={() => copyToClipboard(conversionData.outputs.binary)}
+                  <span>{conversionData.error ? '---------' : (compactView ? trimLeadingZeros(conversionData.outputs.binary) : conversionData.outputs.binary)}</span>
+                  <button
+                    onClick={() => copyToClipboard(compactView ? trimLeadingZeros(conversionData.outputs.binary) : conversionData.outputs.binary)}
                     disabled={!!conversionData.error}
-                    className="action-button" 
+                    className="action-button"
                     style={{ padding: '2px 8px', fontSize: '10px' }}
                   >
                     Copiar
@@ -246,11 +263,11 @@ function App() {
               <div>
                 <label className="form-label" style={{ display: 'block', marginBottom: '4px' }}>Registro Octal (Base 8)</label>
                 <div className="register-display">
-                  <span>{conversionData.error ? '---------' : conversionData.outputs.octal}</span>
-                  <button 
-                    onClick={() => copyToClipboard(conversionData.outputs.octal)}
+                  <span>{conversionData.error ? '---------' : (compactView ? trimLeadingZeros(conversionData.outputs.octal) : conversionData.outputs.octal)}</span>
+                  <button
+                    onClick={() => copyToClipboard(compactView ? trimLeadingZeros(conversionData.outputs.octal) : conversionData.outputs.octal)}
                     disabled={!!conversionData.error}
-                    className="action-button" 
+                    className="action-button"
                     style={{ padding: '2px 8px', fontSize: '10px' }}
                   >
                     Copiar
@@ -278,11 +295,11 @@ function App() {
               <div>
                 <label className="form-label" style={{ display: 'block', marginBottom: '4px' }}>Registro Hexadecimal (Base 16)</label>
                 <div className="register-display">
-                  <span>{conversionData.error ? '---------' : `0x${conversionData.outputs.hexadecimal}`}</span>
-                  <button 
-                    onClick={() => copyToClipboard(conversionData.outputs.hexadecimal)}
+                  <span>{conversionData.error ? '---------' : `0x${compactView ? trimLeadingZeros(conversionData.outputs.hexadecimal) : conversionData.outputs.hexadecimal}`}</span>
+                  <button
+                    onClick={() => copyToClipboard(compactView ? trimLeadingZeros(conversionData.outputs.hexadecimal) : conversionData.outputs.hexadecimal)}
                     disabled={!!conversionData.error}
-                    className="action-button" 
+                    className="action-button"
                     style={{ padding: '2px 8px', fontSize: '10px' }}
                   >
                     Copiar
@@ -385,7 +402,7 @@ function App() {
                   <div style={{ border: '1px solid var(--border-muted)', padding: '10px', backgroundColor: 'var(--bg-secondary)' }}>
                     <span className="form-label" style={{ fontSize: '9px' }}>ALU Binario</span>
                     <div style={{ fontFamily: 'monospace', fontWeight: '700', fontSize: '13px', marginTop: '4px' }}>
-                      {aluData.resultBin}
+                      {compactView ? trimLeadingZeros(aluData.resultBin) : aluData.resultBin}
                     </div>
                   </div>
                   <div style={{ border: '1px solid var(--border-muted)', padding: '10px', backgroundColor: 'var(--bg-secondary)' }}>
@@ -397,7 +414,7 @@ function App() {
                   <div style={{ border: '1px solid var(--border-muted)', padding: '10px', backgroundColor: 'var(--bg-secondary)' }}>
                     <span className="form-label" style={{ fontSize: '9px' }}>ALU Hexadecimal</span>
                     <div style={{ fontFamily: 'monospace', fontWeight: '700', fontSize: '13px', marginTop: '4px' }}>
-                      0x{aluData.hexResult}
+                      0x{compactView ? trimLeadingZeros(aluData.hexResult) : aluData.hexResult}
                     </div>
                   </div>
                 </div>
