@@ -1,13 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import {
-  validateInputCharacters,
-  anyBaseToDecimal,
-  decimalToAnyBase,
-  getArchitectureLimit,
-  applyPadding,
-  simulateALU
-} from './utils/numericEngine';
+import { useConversion } from './hooks/useConversion';
+import { useALU } from './hooks/useALU';
 import InputModule from './components/InputModule';
 import RegistersPanel from './components/RegistersPanel';
 import AluPanel from './components/AluPanel';
@@ -28,108 +22,10 @@ function App() {
   const [compactView, setCompactView] = useState(false);
 
   // --- Core Base Conversion Logic ---
-  const conversionData = useMemo(() => {
-    const errorData = {
-      decimalValue: null,
-      outputs: { binary: '', octal: '', decimal: '', hexadecimal: '' },
-      error: '',
-      toDecimalSteps: [],
-      toBasesSteps: {}
-    };
-
-    if (!inputNum.trim()) {
-      return { ...errorData, error: 'Ingrese un número para comenzar.' };
-    }
-
-    // A. Validate characters for selected base
-    const isValidChars = validateInputCharacters(inputNum, inputBase);
-    if (!isValidChars) {
-      return { ...errorData, error: `Caracteres inválidos para la base ${inputBase} seleccionada.` };
-    }
-
-    // B. Transform any base to central decimal (BigInt)
-    let decimalVal;
-    let toDecimalSteps = [];
-    try {
-      const conv = anyBaseToDecimal(inputNum, inputBase);
-      decimalVal = conv.decimalVal;
-      toDecimalSteps = conv.steps;
-    } catch (e) {
-      return { ...errorData, error: 'Error al procesar la conversión posicional.' };
-    }
-
-    // C. Check architectural overflow
-    const limit = getArchitectureLimit(wordSize);
-    if (decimalVal > limit) {
-      return {
-        ...errorData,
-        error: `Overflow / Desbordamiento de Registro. El valor máximo permitido en ${wordSize} bits es ${limit.toString()} (2^${wordSize} - 1).`
-      };
-    }
-
-    // D. Convert to all 4 bases with successive division and padding
-    const binaryConv = decimalToAnyBase(decimalVal, 2);
-    const octalConv = decimalToAnyBase(decimalVal, 8);
-    const hexConv = decimalToAnyBase(decimalVal, 16);
-
-    const outputs = {
-      binary: applyPadding(binaryConv.resultStr, 2, wordSize),
-      octal: applyPadding(octalConv.resultStr, 8, wordSize),
-      decimal: decimalVal.toString(),
-      hexadecimal: applyPadding(hexConv.resultStr, 16, wordSize)
-    };
-
-    return {
-      decimalValue: decimalVal,
-      outputs,
-      error: '',
-      toDecimalSteps,
-      toBasesSteps: {
-        2: binaryConv.steps,
-        8: octalConv.steps,
-        16: hexConv.steps
-      }
-    };
-  }, [inputNum, inputBase, wordSize]);
+  const conversionData = useConversion(inputNum, inputBase, wordSize);
 
   // --- ALU Simulation Logic ---
-  const aluData = useMemo(() => {
-    const errorData = {
-      padA: '',
-      padB: '',
-      resultBin: '',
-      hexResult: '',
-      decResult: '',
-      steps: [],
-      error: ''
-    };
-
-    if (!aluA.trim() || !aluB.trim()) {
-      return { ...errorData, error: 'Ingrese ambos operandos binarios.' };
-    }
-
-    const isValidA = validateInputCharacters(aluA, 2);
-    const isValidB = validateInputCharacters(aluB, 2);
-    if (!isValidA || !isValidB) {
-      return { ...errorData, error: 'Los operandos de la ALU deben ser cadenas binarias puras (0 y 1).' };
-    }
-
-    // Check sizes
-    const decA = anyBaseToDecimal(aluA, 2).decimalVal;
-    const decB = anyBaseToDecimal(aluB, 2).decimalVal;
-    const limit = getArchitectureLimit(wordSize);
-
-    if (decA > limit || decB > limit) {
-      return { ...errorData, error: `Desbordamiento en ALU. Los operandos deben caber en la arquitectura de ${wordSize} bits (máx: ${limit.toString()}).` };
-    }
-
-    try {
-      const res = simulateALU(aluA, aluB, aluOp, wordSize);
-      return { ...res, error: '' };
-    } catch (e) {
-      return { ...errorData, error: 'Error durante la simulación de compuertas de la ALU.' };
-    }
-  }, [aluA, aluB, aluOp, wordSize]);
+  const aluData = useALU(aluA, aluB, aluOp, wordSize);
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
