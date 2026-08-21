@@ -1,14 +1,11 @@
 /* global BigInt */
 // Low-Level Numeric Base Conversion and ALU Simulation Engine
 // Built manually without parseInt or toString conversion functions.
-
 const HEX_CHAR_MAP = {
   '0': 0n, '1': 1n, '2': 2n, '3': 3n, '4': 4n, '5': 5n, '6': 6n, '7': 7n, '8': 8n, '9': 9n,
   'A': 10n, 'B': 11n, 'C': 12n, 'D': 13n, 'E': 14n, 'F': 15n
 };
-
 const HEX_VAL_MAP = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
-
 // Validate that input characters match the selected base
 export function validateInputCharacters(numStr, base) {
   const cleanStr = numStr.trim().toUpperCase();
@@ -27,7 +24,6 @@ export function validateInputCharacters(numStr, base) {
   }
   return true;
 }
-
 // Convert any base (2, 8, 10, 16) to decimal BigInt using manual Positional Multiplication
 export function anyBaseToDecimal(numStr, fromBase) {
   const cleanStr = numStr.trim().toUpperCase();
@@ -54,10 +50,8 @@ export function anyBaseToDecimal(numStr, fromBase) {
       accumulated: decimalVal.toString()
     });
   }
-
   return { decimalVal, steps };
 }
-
 // Convert decimal BigInt to any base (2, 8, 16) using manual Successive Divisions
 export function decimalToAnyBase(decimalVal, toBase) {
   if (decimalVal === 0n) {
@@ -90,16 +84,13 @@ export function decimalToAnyBase(decimalVal, toBase) {
 
     temp = quotient;
   }
-
   const resultStr = residues.reverse().join('');
   return { resultStr, steps };
 }
-
 // Get maximum value for a given word size (bits)
 export function getArchitectureLimit(bits) {
   return (2n ** BigInt(bits)) - 1n;
 }
-
 // Format number representation with padding based on architecture width
 export function applyPadding(numStr, base, bits) {
   const cleanStr = numStr.trim().toUpperCase();
@@ -123,12 +114,10 @@ export function applyPadding(numStr, base, bits) {
     // Decimal doesn't typically pad with zeros in computer registers, return as is
     return cleanStr;
   }
-
   if (cleanStr.length >= targetLen) return cleanStr;
   const paddingLen = targetLen - cleanStr.length;
   return '0'.repeat(paddingLen) + cleanStr;
 }
-
 // Simulates bitwise logic gates AND, OR, XOR bit-by-bit
 export function simulateALU(binA, binB, operation, bits) {
   // Pad both binary strings to the architecture bit size
@@ -139,8 +128,8 @@ export function simulateALU(binA, binB, operation, bits) {
   const steps = [];
 
   for (let i = 0; i < bits; i++) {
-    const bitA = parseInt(padA[i]);
-    const bitB = parseInt(padB[i]);
+    const bitA = padA[i] === '1' ? 1 : 0;
+    const bitB = padB[i] === '1' ? 1 : 0;
     let outBit = 0;
 
     if (operation === 'AND') {
@@ -150,9 +139,7 @@ export function simulateALU(binA, binB, operation, bits) {
     } else if (operation === 'XOR') {
       outBit = bitA ^ bitB;
     }
-
     resultBinList.push(outBit);
-
     steps.push({
       index: bits - 1 - i, // Logical binary weight index
       bitA,
@@ -161,14 +148,11 @@ export function simulateALU(binA, binB, operation, bits) {
       outBit
     });
   }
-
   const resultBin = resultBinList.join('');
-  
   // Convert result binary back to decimal to return other base formats
   const { decimalVal } = anyBaseToDecimal(resultBin, 2);
   const hexResult = applyPadding(decimalToAnyBase(decimalVal, 16).resultStr, 16, bits);
   const decResult = decimalVal.toString();
-
   return {
     padA,
     padB,
@@ -178,10 +162,15 @@ export function simulateALU(binA, binB, operation, bits) {
     steps
   };
 }
-
 // Remove leading zeros from a string for compact display (cosmetic only)
 // Returns '0' if the string is all zeros or empty after trimming.
 export function trimLeadingZeros(str) {
   const trimmed = str.replace(/^0+/, '');
   return trimmed.length === 0 ? '0' : trimmed;
+}
+// Centralizes display logic: returns error placeholder, compact, or padded value.
+// Use for any register output that respects compactView and error state.
+export function getDisplayValue(value, hasError, isCompact) {
+  if (hasError) return '---------';
+  return isCompact ? trimLeadingZeros(value) : value;
 }
