@@ -2,16 +2,13 @@ import React from 'react';
 
 function MathDebugger({ conversionData, aluOp }) {
   return (
-    <div className="lab-panel" style={{ position: 'sticky', top: '24px' }}>
+    <div className="lab-panel panel-debugger" style={{ position: 'sticky', top: '24px' }}>
       <div className="panel-header">
-        <h2 style={{ fontSize: '14px', margin: 0 }}>Depurador de Proceso Matemático</h2>
-        <span className="register-label" style={{ backgroundColor: 'var(--accent-green)', color: '#000' }}>
-          Algoritmo
-        </span>
+        <h2>Depurador de Proceso Matemático</h2>
       </div>
 
       {conversionData.error ? (
-        <div style={{ color: 'var(--text-secondary)', fontSize: '12px', textAlign: 'center', padding: '24px' }}>
+        <div style={{ color: '#2D3748', fontSize: '13px', textAlign: 'center', padding: '24px', fontWeight: '700' }}>
           [Esperando datos válidos para trazar algoritmos...]
         </div>
       ) : (
@@ -19,10 +16,10 @@ function MathDebugger({ conversionData, aluOp }) {
 
           {/* 1. Any Base to Decimal (Teorema Fundamental) */}
           <div>
-            <h3 style={{ fontSize: '12px', borderBottom: '1px solid var(--border-color)', paddingBottom: '6px', marginBottom: '8px' }}>
+            <h3 style={{ fontSize: '13px', borderBottom: '2px solid #000', paddingBottom: '6px', marginBottom: '8px', fontWeight: '800' }}>
               1. Entrada a Base 10 (Suma Posicional)
             </h3>
-            <p style={{ fontSize: '11px', color: 'var(--text-secondary)', marginBottom: '8px' }}>
+            <p style={{ fontSize: '11px', color: '#2D3748', marginBottom: '8px', fontWeight: '600' }}>
               Fórmula: Suma de (dígito × base ^ posición)
             </p>
             <div style={{ overflowX: 'auto' }}>
@@ -38,23 +35,23 @@ function MathDebugger({ conversionData, aluOp }) {
                 <tbody>
                   {conversionData.toDecimalSteps.map((step, idx) => (
                     <tr key={`step-dec-${idx}`}>
-                      <td style={{ fontWeight: '700' }}>{step.char}</td>
+                      <td style={{ fontWeight: '800' }}>{step.char}</td>
                       <td>{step.val} × {step.base}<sup>{step.power}</sup></td>
-                      <td className="highlight-text-cyan">{step.term}</td>
-                      <td style={{ fontWeight: '700' }}>{step.accumulated}</td>
+                      <td><span className="highlight-text-cyan">{step.term}</span></td>
+                      <td style={{ fontWeight: '800' }}>{step.accumulated}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            <div style={{ fontSize: '12px', fontWeight: '700', marginTop: '8px', textAlign: 'right' }}>
+            <div style={{ fontSize: '12px', fontWeight: '800', marginTop: '8px', textAlign: 'right' }}>
               Decimal Central = <span className="highlight-text-cyan">{conversionData.outputs.decimal}</span>
             </div>
           </div>
 
           {/* 2. Successive Divisions */}
           <div>
-            <h3 style={{ fontSize: '12px', borderBottom: '1px solid var(--border-color)', paddingBottom: '6px', marginBottom: '8px' }}>
+            <h3 style={{ fontSize: '13px', borderBottom: '2px solid #000', paddingBottom: '6px', marginBottom: '8px', fontWeight: '800' }}>
               2. Base 10 a Salidas (Divisiones Sucesivas)
             </h3>
 
@@ -64,8 +61,8 @@ function MathDebugger({ conversionData, aluOp }) {
                 const steps = conversionData.toBasesSteps[targetBase] || [];
                 const baseNames = { 2: 'Binaria', 8: 'Octal', 16: 'Hexadecimal' };
                 return (
-                  <details key={`details-base-${targetBase}`} style={{ border: '1px solid var(--border-muted)', padding: '8px' }}>
-                    <summary style={{ fontSize: '11px', fontWeight: '700', cursor: 'pointer', outline: 'none', userSelect: 'none' }}>
+                  <details key={`details-base-${targetBase}`} style={{ border: '2px solid #000', borderRadius: '10px', padding: '8px', background: '#ffffff' }}>
+                    <summary style={{ fontSize: '12px', fontWeight: '800', cursor: 'pointer', outline: 'none', userSelect: 'none' }}>
                       División Sucesiva Base {targetBase} ({baseNames[targetBase]})
                     </summary>
                     <div style={{ marginTop: '8px', overflowX: 'auto' }}>
@@ -85,14 +82,14 @@ function MathDebugger({ conversionData, aluOp }) {
                               <td>{step.dividend}</td>
                               <td>÷ {step.divisor}</td>
                               <td>{step.quotient}</td>
-                              <td className="highlight-text-green">{step.residue}</td>
-                              <td style={{ fontWeight: '700', color: 'var(--accent-magenta)' }}>{step.hexResidue}</td>
+                              <td><span className="highlight-text-green">{step.residue}</span></td>
+                              <td style={{ fontWeight: '800' }}><span className="highlight-text-magenta">{step.hexResidue}</span></td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
-                      <div style={{ fontSize: '11px', marginTop: '8px', color: 'var(--text-secondary)' }}>
-                        Invertido: <strong style={{ color: 'var(--text-primary)' }}>
+                      <div style={{ fontSize: '11px', marginTop: '8px', color: '#2D3748', fontWeight: '700' }}>
+                        Invertido: <strong style={{ color: '#000', fontWeight: '900' }}>
                           {steps.map(s => s.hexResidue).reverse().join('')}
                         </strong>
                       </div>
@@ -105,10 +102,10 @@ function MathDebugger({ conversionData, aluOp }) {
 
           {/* 3. ALU Truth Table Helper */}
           <div>
-            <h3 style={{ fontSize: '12px', borderBottom: '1px solid var(--border-color)', paddingBottom: '6px', marginBottom: '8px' }}>
+            <h3 style={{ fontSize: '13px', borderBottom: '2px solid #000', paddingBottom: '6px', marginBottom: '8px', fontWeight: '800' }}>
               3. Tabla de Verdad de la ALU ({aluOp})
             </h3>
-            <table className="math-table" style={{ width: '80%', margin: '0 auto' }}>
+            <table className="math-table" style={{ width: '90%', margin: '0 auto' }}>
               <thead>
                 <tr>
                   <th style={{ textAlign: 'center' }}>Bit A</th>
@@ -117,30 +114,36 @@ function MathDebugger({ conversionData, aluOp }) {
                 </tr>
               </thead>
               <tbody>
-                <tr style={{ fontWeight: aluOp === 'AND' ? 'normal' : 'normal' }}>
+                <tr>
                   <td style={{ textAlign: 'center' }}>0</td>
                   <td style={{ textAlign: 'center' }}>0</td>
-                  <td style={{ textAlign: 'center', backgroundColor: (aluOp === 'AND' || aluOp === 'OR' || aluOp === 'XOR') && 'var(--bg-secondary)' }}>0</td>
+                  <td style={{ textAlign: 'center', fontWeight: '800' }}>0</td>
                 </tr>
                 <tr>
                   <td style={{ textAlign: 'center' }}>0</td>
                   <td style={{ textAlign: 'center' }}>1</td>
-                  <td style={{ textAlign: 'center', backgroundColor: aluOp === 'OR' || aluOp === 'XOR' ? 'var(--accent-green)' : 'var(--bg-secondary)' }}>
-                    {aluOp === 'OR' || aluOp === 'XOR' ? '1' : '0'}
+                  <td style={{ textAlign: 'center', fontWeight: '800' }}>
+                    <span className={aluOp === 'OR' || aluOp === 'XOR' ? 'highlight-text-green' : ''}>
+                      {aluOp === 'OR' || aluOp === 'XOR' ? '1' : '0'}
+                    </span>
                   </td>
                 </tr>
                 <tr>
                   <td style={{ textAlign: 'center' }}>1</td>
                   <td style={{ textAlign: 'center' }}>0</td>
-                  <td style={{ textAlign: 'center', backgroundColor: aluOp === 'OR' || aluOp === 'XOR' ? 'var(--accent-green)' : 'var(--bg-secondary)' }}>
-                    {aluOp === 'OR' || aluOp === 'XOR' ? '1' : '0'}
+                  <td style={{ textAlign: 'center', fontWeight: '800' }}>
+                    <span className={aluOp === 'OR' || aluOp === 'XOR' ? 'highlight-text-green' : ''}>
+                      {aluOp === 'OR' || aluOp === 'XOR' ? '1' : '0'}
+                    </span>
                   </td>
                 </tr>
                 <tr>
                   <td style={{ textAlign: 'center' }}>1</td>
                   <td style={{ textAlign: 'center' }}>1</td>
-                  <td style={{ textAlign: 'center', backgroundColor: aluOp === 'AND' || aluOp === 'OR' ? 'var(--accent-green)' : 'var(--bg-secondary)' }}>
-                    {aluOp === 'AND' || aluOp === 'OR' ? '1' : '0'}
+                  <td style={{ textAlign: 'center', fontWeight: '800' }}>
+                    <span className={aluOp === 'AND' || aluOp === 'OR' ? 'highlight-text-green' : ''}>
+                      {aluOp === 'AND' || aluOp === 'OR' ? '1' : '0'}
+                    </span>
                   </td>
                 </tr>
               </tbody>

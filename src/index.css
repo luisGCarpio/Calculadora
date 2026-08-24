@@ -1,38 +1,47 @@
 :root {
-  --bg-primary: #F7F1EB;
-  --bg-secondary: #EFE6DC;
-  --text-primary: #1E1A17;
-  --text-secondary: #5C534C;
-  --border-color: #1E1A17;
-  --border-muted: #D8CCBF;
-  
-  --accent-cyan: #50F1FF;
-  --accent-green: #4DF527;
-  --accent-magenta: #E800FF;
+  --font-syne: 'Syne', sans-serif;
+  --font-clash: 'Clash Display', 'Syne', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+
+  --bg-primary: #EBE4F9;
+  --bg-secondary: #F3EEFC;
+  --text-primary: #1F1F1F;
+  --text-secondary: #4A4A4A;
+  --border-color: #000000;
+  --border-muted: #000000;
+
+  --card-pink: #FF7CA8;
+  --card-cyan: #70EFFC;
+  --card-yellow: #FEFF9E;
+  --card-green: #86EFAC;
+
+  --accent-cyan: #70EFFC;
+  --accent-green: #86EFAC;
+  --accent-magenta: #FF7CA8;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  /* Disable italics globally to enforce the design constraint */
   font-style: normal !important;
 }
 
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  font-family: var(--font-clash);
   line-height: 1.5;
   font-size: 15px;
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-family: var(--font-syne);
+  font-weight: 800;
   color: var(--text-primary);
+  letter-spacing: -0.02em;
 }
 
 button, input, select, textarea {
@@ -48,26 +57,22 @@ button, input, select, textarea {
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
+  background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--border-muted);
-  border: 2px solid var(--bg-secondary);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--border-color);
+  background: #000000;
+  border-radius: 4px;
 }
 
 /* Keyframe flash animation for React re-renders */
 @keyframes flash-green {
   0% {
-    outline: 2px solid var(--accent-green);
-    background-color: var(--accent-green);
+    box-shadow: 0 0 0 3px #86EFAC;
+    background-color: #86EFAC;
     color: #000;
   }
   100% {
-    outline: 2px solid transparent;
-    background-color: transparent;
+    box-shadow: none;
   }
 }
 
@@ -77,13 +82,12 @@ button, input, select, textarea {
 
 @keyframes flash-magenta {
   0% {
-    outline: 2px solid var(--accent-magenta);
-    background-color: var(--accent-magenta);
-    color: #fff;
+    box-shadow: 0 0 0 3px #FF7CA8;
+    background-color: #FF7CA8;
+    color: #000;
   }
   100% {
-    outline: 2px solid transparent;
-    background-color: transparent;
+    box-shadow: none;
   }
 }
 

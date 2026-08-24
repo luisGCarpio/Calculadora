@@ -33,20 +33,21 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* HEADER */}
-      <header style={{ borderBottom: '2px solid var(--border-color)', paddingBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px' }}>
+      {/* HEADER BANNER (Neo-Brutalist Pink Hero Card) */}
+      <header className="app-header-card">
         <div>
-          <h1 style={{ fontSize: '22px', margin: 0 }}>Motor de Conversión y Aritmética ALU</h1>
-          <p style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <div style={{ fontSize: '2rem', marginBottom: '4px' }}>🚀</div>
+          <h1 className="app-header-title">Motor de Conversión y Aritmética ALU</h1>
+          <p className="app-header-subtitle">
             Electrónica Digital • Ingeniería de Sistemas • CUL
           </p>
         </div>
-        <div style={{ display: 'flex', gap: '12px', fontSize: '11px', fontWeight: '700' }}>
-          <span style={{ backgroundColor: 'var(--accent-cyan)', padding: '3px 8px', border: '1px solid var(--border-color)' }}>
-            Modo: Manual (Sin parseInt/toString)
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+          <span className="badge-pill-black">
+            Modo: Manual
           </span>
-          <span style={{ backgroundColor: 'var(--accent-magenta)', color: '#fff', padding: '3px 8px', border: '1px solid var(--border-color)' }}>
-            Precisión: BigInt 64-bit
+          <span className="badge-pill-black" style={{ backgroundColor: '#ffffff', color: '#000000', border: '2px solid #000000' }}>
+            BigInt 64-bit
           </span>
         </div>
       </header>
@@ -54,8 +55,8 @@ function App() {
       {/* DASHBOARD LAYOUT */}
       <div className="dashboard-layout">
         
-        {/* COLUMN LEFT (70%): INPUTS, REGISTERS, AND ALU */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        {/* COLUMN LEFT (62%): INPUTS, REGISTERS, AND ALU */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
           
           {/* MÓDULO 1: ENTRADA Y CONFIGURACIÓN */}
           <InputModule
@@ -91,7 +92,7 @@ function App() {
 
         </div>
 
-        {/* COLUMN RIGHT (30%): MATH STEPS DEBUGGER */}
+        {/* COLUMN RIGHT (38%): MATH STEPS DEBUGGER */}
         <MathDebugger
           conversionData={conversionData}
           aluOp={aluOp}
@@ -99,33 +100,20 @@ function App() {
 
       </div>
 
-
-
-      {/* FOOTER */}
-      <footer 
-        style={{
-          borderTop: '2px solid var(--border-color)',
-          paddingTop: '24px',
-          marginTop: '24px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '16px'
-        }}
-      >
+      {/* FOOTER BAR (Neo-Brutalist Pill Shape) */}
+      <footer className="app-footer-card">
         <div>
-          <span style={{ fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em' }}>uhhhpacho</span>
-          <p style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '4px' }}>
-            © {new Date().getFullYear()} uhhhpacho. Proyectos de Electrónica Digital.
+          <span style={{ fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Uhhhh Pacho • Electrónica Digital</span>
+          <p style={{ fontSize: '11px', color: '#2D3748', marginTop: '2px', fontWeight: '600' }}>
+            © {new Date().getFullYear()} ApexCode. Todos los derechos reservados.
           </p>
         </div>
-        <div style={{ display: 'flex', gap: '16px', fontSize: '12px', fontWeight: '700' }}>
-          <span style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '2px', cursor: 'default' }}>
-            Electrónica Digital CUL
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <span className="badge-pill-black" style={{ backgroundColor: '#ffffff', color: '#000000', border: '2px solid #000' }}>
+            6to Semestre
           </span>
-          <span style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '2px', cursor: 'default' }}>
-            Ingeniería de Sistemas
+          <span className="badge-pill-black">
+            ApexCode
           </span>
         </div>
       </footer>

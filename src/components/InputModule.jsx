@@ -3,12 +3,9 @@ import { getArchitectureLimit, decimalToAnyBase } from '../utils/numericEngine';
 
 function InputModule({ inputNum, setInputNum, inputBase, setInputBase, wordSize, setWordSize, conversionData }) {
   return (
-    <div className="lab-panel">
+    <div className="lab-panel panel-input">
       <div className="panel-header">
-        <h2 style={{ fontSize: '14px', margin: 0 }}>Módulo de Entrada de Datos</h2>
-        <span className="register-label" style={{ backgroundColor: 'var(--accent-cyan)', color: '#000' }}>
-          Fase 1 y 2
-        </span>
+        <h2>Módulo de Entrada de Datos</h2>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
@@ -41,7 +38,7 @@ function InputModule({ inputNum, setInputNum, inputBase, setInputBase, wordSize,
         </div>
 
         <div className="form-group">
-          <label className="form-label" htmlFor="word-size">Tamaño de Palabra (Arquitectura)</label>
+          <label className="form-label" htmlFor="word-size">Tamaño de Palabra</label>
           <select
             id="word-size"
             value={wordSize}
@@ -63,9 +60,9 @@ function InputModule({ inputNum, setInputNum, inputBase, setInputBase, wordSize,
           <span>⚠ ERROR: {conversionData.error}</span>
         </div>
       ) : (
-        <div style={{ fontSize: '11px', color: 'var(--text-secondary)', borderTop: '1px solid var(--border-muted)', paddingTop: '10px' }}>
+        <div style={{ fontSize: '12px', color: '#2D3748', borderTop: '2px solid #000', paddingTop: '12px', fontWeight: '600' }}>
           Máscara activa para {wordSize} bits. Límite máximo del registro: 
-          <strong style={{ color: 'var(--text-primary)' }}> {getArchitectureLimit(wordSize).toString()} (0x{decimalToAnyBase(getArchitectureLimit(wordSize), 16).resultStr.toUpperCase()})</strong>
+          <strong style={{ color: '#000', fontWeight: '800' }}> {getArchitectureLimit(wordSize).toString()} (0x{decimalToAnyBase(getArchitectureLimit(wordSize), 16).resultStr.toUpperCase()})</strong>
         </div>
       )}
     </div>

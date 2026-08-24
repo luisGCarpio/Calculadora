@@ -3,12 +3,9 @@ import { getDisplayValue } from '../utils/numericEngine';
 
 function AluPanel({ aluA, setAluA, aluB, setAluB, aluOp, setAluOp, aluData, wordSize, compactView }) {
   return (
-    <div className="lab-panel">
+    <div className="lab-panel panel-alu">
       <div className="panel-header">
-        <h2 style={{ fontSize: '14px', margin: 0 }}>Capa de Aritmética Lógica (ALU Simulator)</h2>
-        <span className="register-label" style={{ backgroundColor: 'var(--accent-magenta)', color: '#fff' }}>
-          Fase 3
-        </span>
+        <h2>Capa de Aritmética Lógica (ALU Simulator)</h2>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
@@ -53,11 +50,11 @@ function AluPanel({ aluA, setAluA, aluB, setAluB, aluOp, setAluOp, aluData, word
       </div>
 
       {aluData.error ? (
-        <div className="alert-box" style={{ backgroundColor: 'var(--accent-magenta)' }}>
+        <div className="alert-box">
           <span>⚠ ERROR ALU: {aluData.error}</span>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '8px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '8px' }}>
 
           {/* ALU Bit grid comparison display */}
           <div>
@@ -73,7 +70,7 @@ function AluPanel({ aluA, setAluA, aluB, setAluB, aluOp, setAluOp, aluData, word
                 ))}
               </div>
               {/* Operand B Row */}
-              <div className="alu-bit-row" style={{ borderBottom: '2px solid var(--border-color)', paddingBottom: '4px', marginBottom: '4px' }}>
+              <div className="alu-bit-row" style={{ borderBottom: '2.5px solid #000', paddingBottom: '6px', marginBottom: '6px' }}>
                 <div className="alu-row-header">Reg B (Binario):</div>
                 {aluData.padB.split('').map((bit, idx) => (
                   <div key={`B-${idx}`} className={`alu-bit-cell ${bit === '1' ? 'highlight-cyan' : ''}`}>
@@ -94,22 +91,22 @@ function AluPanel({ aluA, setAluA, aluB, setAluB, aluOp, setAluOp, aluData, word
           </div>
 
           {/* ALU Outputs display */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '12px' }}>
-            <div style={{ border: '1px solid var(--border-muted)', padding: '10px', backgroundColor: 'var(--bg-secondary)' }}>
-              <span className="form-label" style={{ fontSize: '9px' }}>ALU Binario</span>
-              <div style={{ fontFamily: 'monospace', fontWeight: '700', fontSize: '13px', marginTop: '4px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '14px' }}>
+            <div className="register-display" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+              <span className="form-label" style={{ fontSize: '10px' }}>ALU Binario</span>
+              <div style={{ fontFamily: "'Space Mono', monospace", fontWeight: '700', fontSize: '14px', marginTop: '4px' }}>
                 {getDisplayValue(aluData.resultBin, !!aluData.error, compactView)}
               </div>
             </div>
-            <div style={{ border: '1px solid var(--border-muted)', padding: '10px', backgroundColor: 'var(--bg-secondary)' }}>
-              <span className="form-label" style={{ fontSize: '9px' }}>ALU Decimal</span>
-              <div style={{ fontFamily: 'monospace', fontWeight: '700', fontSize: '13px', marginTop: '4px' }}>
+            <div className="register-display" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+              <span className="form-label" style={{ fontSize: '10px' }}>ALU Decimal</span>
+              <div style={{ fontFamily: "'Space Mono', monospace", fontWeight: '700', fontSize: '14px', marginTop: '4px' }}>
                 {aluData.decResult}
               </div>
             </div>
-            <div style={{ border: '1px solid var(--border-muted)', padding: '10px', backgroundColor: 'var(--bg-secondary)' }}>
-              <span className="form-label" style={{ fontSize: '9px' }}>ALU Hexadecimal</span>
-              <div style={{ fontFamily: 'monospace', fontWeight: '700', fontSize: '13px', marginTop: '4px' }}>
+            <div className="register-display" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+              <span className="form-label" style={{ fontSize: '10px' }}>ALU Hexadecimal</span>
+              <div style={{ fontFamily: "'Space Mono', monospace", fontWeight: '700', fontSize: '14px', marginTop: '4px' }}>
                 0x{getDisplayValue(aluData.hexResult, !!aluData.error, compactView)}
               </div>
             </div>
